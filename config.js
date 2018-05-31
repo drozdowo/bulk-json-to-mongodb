@@ -1,7 +1,7 @@
 module.exports = {
-    dbName: 'dbname',
+    dbName: 'eofm',
     dbLoc: 'localhost',
-    dbUser: 'dbuser',
-    dbPass: 'dbpass',
+    dbUser: 'eofm',
+    dbPass: 'replaceme',
     dbPort: '27017'
 }

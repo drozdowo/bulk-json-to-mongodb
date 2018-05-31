@@ -5,7 +5,13 @@ var options = {
     keepAlive: 1, connectTimeoutMS: 30000
 };
 
+if (process.argv.length <= 2){
+    console.log('Missing 3rd argument! Please use <add/dropadd/drop>');
+    process.exit(1);
+}
+
 var jsonFilesToPush = fs.readdirSync('./json/');
+var uploadedFiles = 0;
 var collectionNames = [];
 
 var mi = require('mongoimport');
@@ -117,6 +123,9 @@ function addToDb(fileName){
                     if (err){
                         console.log(err);
                         process.exit(1);
+                    } 
+                    if (db){
+                        amDone(fileName);
                     }
                 }
             }
@@ -129,6 +138,7 @@ function addToDb(fileName){
                 mongoose.connection.db.collection(collectionName).insertMany(JSON.parse(removeAsianCharacters(file)))
                 .then((a)=>{
                     console.log('Insert '+ collectionName +' Successfully!');
+                    amDone(fileName);
                 }, (a)=>{
                     console.log('CollectionName: ' + collectionName + ' Insert Rejected!', a);
                     process.exit(1);
@@ -140,6 +150,14 @@ function addToDb(fileName){
         }
     } catch (e){
         console.log('Error!', e);
+    }
+}
+
+function amDone(fileName){
+    if (++uploadedFiles === jsonFilesToPush.length){
+        mongoose.disconnect();
+        console.log('bulk-json-to-mongodb finished running! Uploaded all files successfully!');
+        process.exit(1);
     }
 }
 
