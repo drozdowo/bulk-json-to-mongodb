@@ -126,7 +126,7 @@ function addToDb(fileName){
             mongoose.connection.db.createCollection(collectionName)
             .then((a) => {
                 console.log('Created ' + collectionName +' Successfully!');
-                mongoose.connection.db.collection(collectionName).insertMany(JSON.parse(file))
+                mongoose.connection.db.collection(collectionName).insertMany(JSON.parse(removeAsianCharacters(file)))
                 .then((a)=>{
                     console.log('Insert '+ collectionName +' Successfully!');
                 }, (a)=>{
@@ -141,4 +141,12 @@ function addToDb(fileName){
     } catch (e){
         console.log('Error!', e);
     }
+}
+
+
+function removeAsianCharacters(file){
+    var newFile = file;
+    var re = /[^\x00-\x7F]/g;
+    newFile = newFile.replace(re, '');
+    return newFile;
 }
