@@ -142,26 +142,3 @@ function addToDb(fileName){
         console.log('Error!', e);
     }
 }
-
-function removeAsianCharacters(file){
-    console.log('old len: ' + file.length);
-    var newFile = file;
-    var re = /[^\x00-\x7F]/g;
-    newFile = newFile.replace(re, '');
-    var re = /"de": "(.*)",/g;
-    newFile = newFile.replace(re, '');
-    var re = /"es": "(.*)",/g;
-    newFile = newFile.replace(re, '');
-    var re = /"fr": "(.*)",/g;
-    newFile = newFile.replace(re, '');
-    var re = /"it": "(.*)",/g;
-    newFile = newFile.replace(re, '');
-    var re = /"ja": "(.*)",/g;
-    newFile = newFile.replace(re, '');
-    // var re = /"ru": "(.*)",/g;
-    // newFile = newFile.replace(re, '');
-    // var re = /"zh": "(.*)"/g;
-    // newFile = newFile.replace(re, '"zh": ""');
-    console.log('new len: ' + newFile.length);
-    return newFile;
-}
